@@ -12,6 +12,8 @@ import {
 } from 'react-native';
 import firebase from '@react-native-firebase/app';
 import CheckBox from '@react-native-community/checkbox';
+import Footer from '../components/Footer';
+import Header from '../components/Header';
 
 export default function SignIn({navigation}) {
   const [email, setEmail] = useState('');
@@ -44,9 +46,7 @@ export default function SignIn({navigation}) {
 
   return (
     <>
-      <View style={styles.brandContainer}>
-        <Text style={styles.brand}>Brand name</Text>
-      </View>
+      <Header/>
       <View style={styles.container}>
         <Image
           source={require('../assets/images/hero.png')}
@@ -102,6 +102,7 @@ export default function SignIn({navigation}) {
           </Text>
         </TouchableOpacity>
       </View>
+      <Footer/>
     </>
   );
 }
@@ -109,7 +110,6 @@ export default function SignIn({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#ffff',
   },
