@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   Alert,
+  KeyboardAvoidingView,
 } from 'react-native';
 import firebase from '@react-native-firebase/app';
 import Footer from '../components/Footer';
@@ -22,7 +23,7 @@ export default function SignIn({navigation}) {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const handleLogin = () => {
-    if ((email, password)) {
+    if ((email && password)) {
       firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
@@ -63,19 +64,24 @@ export default function SignIn({navigation}) {
           value={email}
         />
         <View style={styles.passwordSection}>
-        <TextInput
-          secureTextEntry={!showPassword ? true : false}
-          style={styles.textInput}
-          autoCapitalize="none"
-          placeholder="Password"
-          onChangeText={password => setPassword(password)}
-          value={password}
-        />
-        <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-          <Icon name={showPassword ? "eye" : 'eye-with-line'} size={20} color="black" />
-        </TouchableOpacity>
+          <TextInput
+            secureTextEntry={!showPassword ? true : false}
+            style={styles.textInput}
+            autoCapitalize="none"
+            placeholder="Password"
+            onChangeText={password => setPassword(password)}
+            value={password}
+          />
+          <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+            <Icon
+              name={showPassword ? 'eye' : 'eye-with-line'}
+              size={20}
+              color="black"
+              style={{marginTop: 15}}
+            />
+          </TouchableOpacity>
         </View>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{flexDirection: 'row', marginTop: 20}}>
           <View style={styles.checkboxContainer}>
             <CheckBox
               disabled={false}
@@ -118,10 +124,10 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
+    // alignItems: 'center',
     backgroundColor: '#fff',
-    margin:10,
-},
+    margin: 10,
+  },
   textInput: {
     height: 40,
     width: '90%',

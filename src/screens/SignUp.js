@@ -23,7 +23,7 @@ export default function SignIn({navigation}) {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
 
   const handleSignUp = () => {
-    if(email, password){
+    if(email && password){
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
