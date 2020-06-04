@@ -23,25 +23,31 @@ export default function SignIn({navigation}) {
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
 
   const handleSignUp = () => {
+    if(email, password){
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then(() =>
         Alert.alert(
-          'Alert Title',
-          'My Alert Msg',
+          'Registered successfully',
+          '',
           [
-            {
-              text: 'Cancel',
-              onPress: () => console.log('Cancel Pressed'),
-              style: 'cancel',
-            },
+           
             {text: 'OK', onPress: () => console.log('OK Pressed')},
           ],
           {cancelable: false},
         ),
       )
       .catch(error => setErrMsg(error.message));
+    }
+    else{
+      Alert.alert(
+        'Please fill all the fields',
+        '',
+        [{text: 'OK', onPress: () => console.log('OK Pressed')}],
+        {cancelable: false},
+      )
+      }
   };
 
   return (
@@ -92,13 +98,13 @@ export default function SignIn({navigation}) {
           </Text>
         </View>
         <TouchableOpacity style={{width: '70%'}} onPress={handleSignUp}>
-          <Text style={styles.button}>SignUp</Text>
+          <Text style={styles.button}>Sign up</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={{width: '70%'}}
           onPress={() => navigation.navigate('SignIn')}>
           <Text style={styles.buttonTwo}>
-            Already have an account? Click here
+            Already have an account? SignIn here
           </Text>
         </TouchableOpacity>
       </View>
@@ -133,7 +139,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '80%',
-    height: '30%',
+    height: '40%',
     marginTop: 30,
   },
   button: {

@@ -1,72 +1,151 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, TextInput, View, Button,Alert} from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  Image,
+  TouchableOpacity,
+  Alert,
+} from 'react-native';
 import firebase from '@react-native-firebase/app';
+import Footer from '../components/Footer';
+import Header from '../components/Header';
+import CheckBox from '@react-native-community/checkbox';
+import auth from '@react-native-firebase/auth';
 
 export default function SignIn({navigation}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrMsg] = useState(null);
+  const [toggleCheckBox, setToggleCheckBox] = useState(false);
+
   const handleLogin = () => {
+    if(email, password){
     firebase
-    .auth()
-    .signInWithEmailAndPassword(email, password)
-    .then(() =>
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(() =>
+        Alert.alert(
+          'Logged in successfully',
+          '',
+          [{text: 'OK', onPress: () => console.log('OK Pressed')}],
+          {cancelable: false},
+        ),
+      )
+      .catch(error => setErrMsg(error.message));
+    }
+    else{
       Alert.alert(
-        'Alert Title',
-        'My Alert Msg',
-        [
-          {
-            text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
-          },
-          {text: 'OK', onPress: () => console.log('OK Pressed')},
-        ],
+        'Please fill all the fields',
+        '',
+        [{text: 'OK', onPress: () => console.log('OK Pressed')}],
         {cancelable: false},
-      ),
-    )
-    .catch(error => setErrMsg(error.message));
+      )
+      }
   };
 
   return (
-    <View style={styles.container}>
-      <Text>Login</Text>
-      {errorMessage && <Text style={{color: 'red'}}>{errorMessage}</Text>}
-      <TextInput
-        style={styles.textInput}
-        autoCapitalize="none"
-        placeholder="Email"
-        onChangeText={email => setEmail(email)}
-        value={email}
-      />
-      <TextInput
-        secureTextEntry
-        style={styles.textInput}
-        autoCapitalize="none"
-        placeholder="Password"
-        onChangeText={password => setPassword(password)}
-        value={password}
-      />
-      <Button title="Login" onPress={handleLogin} />
-      <Button
-        title="Don't have an account? Sign Up"
-        onPress={() => navigation.navigate('SignUp')}
-      />
-    </View>
+    <>
+      <Header />
+      <View style={styles.container}>
+        <Image
+          source={require('../assets/images/hero.png')}
+          style={styles.image}
+        />
+
+        {errorMessage && <Text style={{color: 'red'}}>{errorMessage}</Text>}
+        <TextInput
+          style={styles.textInput}
+          autoCapitalize="none"
+          placeholder="Email"
+          onChangeText={email => setEmail(email)}
+          value={email}
+        />
+        <TextInput
+          secureTextEntry
+          style={styles.textInput}
+          autoCapitalize="none"
+          placeholder="Password"
+          onChangeText={password => setPassword(password)}
+          value={password}
+        />
+        <View style={{flexDirection: 'row'}}>
+          <View style={styles.checkboxContainer}>
+            <CheckBox
+              disabled={false}
+              value={toggleCheckBox}
+              onValueChange={() =>
+                toggleCheckBox
+                  ? setToggleCheckBox(false)
+                  : setToggleCheckBox(true)
+              }
+            />
+            <Text style={{marginTop: 5, fontSize: 14}}>Remember me</Text>
+          </View>
+          <TouchableOpacity>
+            <Text style={styles.forgotPassword}>Forgot password ?</Text>
+          </TouchableOpacity>
+        </View>
+        <TouchableOpacity style={{width: '70%'}} onPress={handleLogin}>
+          <Text style={styles.button}>Sign in</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={{width: '70%'}}
+          onPress={() => navigation.navigate('SignUp')}>
+          <Text style={styles.buttonTwo}>
+            Don't have an account? SignUp here
+          </Text>
+        </TouchableOpacity>
+      </View>
+      <Footer />
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    backgroundColor: '#ffff',
     alignItems: 'center',
   },
   textInput: {
     height: 40,
     width: '90%',
     borderColor: 'gray',
-    borderWidth: 1,
+    borderBottomWidth: 1,
     marginTop: 8,
+  },
+  image: {
+    width: '80%',
+    height: '40%',
+    marginTop: 40,
+  },
+  button: {
+    padding: 10,
+    borderRadius: 25,
+    backgroundColor: '#ffa45c',
+    textAlign: 'center',
+    color: '#fff4e3',
+    fontSize: 16,
+  },
+  buttonTwo: {
+    padding: 10,
+    borderRadius: 25,
+    textAlign: 'center',
+    color: '#5d5d5a',
+    fontSize: 16,
+    textDecorationLine: 'underline',
+  },
+  checkboxContainer: {
+    flexDirection: 'row',
+    margin: 20,
+    marginRight: 120,
+  },
+  forgotPassword: {
+    marginTop: 25,
+    fontSize: 14,
+    marginRight: 30,
+    textDecorationLine: 'underline',
   },
 });

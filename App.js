@@ -16,8 +16,9 @@ const App = () => {
       <StatusBar barStyle="dark-content" />
       <NavigationContainer>
       <Stack.Navigator>
+      <Stack.Screen name="SignIn" component={SignIn} options={{headerShown:false}}/>
       <Stack.Screen name="SignUp" component={SignUp} options={{headerShown:false}}/>
-      <Stack.Screen name="SignIn" component={SignIn} />
+      
      
     </Stack.Navigator>
       </NavigationContainer>
