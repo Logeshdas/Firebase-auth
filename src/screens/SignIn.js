@@ -159,12 +159,12 @@ const styles = StyleSheet.create({
   checkboxContainer: {
     flexDirection: 'row',
     margin: 20,
-    marginRight: 120,
+    marginRight: 50,
   },
   forgotPassword: {
     marginTop: 25,
     fontSize: 14,
-    marginRight: 30,
+    marginRight: 50,
     textDecorationLine: 'underline',
   },
 });
