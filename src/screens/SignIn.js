@@ -13,36 +13,36 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import CheckBox from '@react-native-community/checkbox';
 import auth from '@react-native-firebase/auth';
+import Icon from 'react-native-vector-icons/Entypo';
 
 export default function SignIn({navigation}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrMsg] = useState(null);
   const [toggleCheckBox, setToggleCheckBox] = useState(false);
-
+  const [showPassword, setShowPassword] = useState(false);
   const handleLogin = () => {
-    if(email, password){
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then(() =>
-        Alert.alert(
-          'Logged in successfully',
-          '',
-          [{text: 'OK', onPress: () => console.log('OK Pressed')}],
-          {cancelable: false},
-        ),
-      )
-      .catch(error => setErrMsg(error.message));
-    }
-    else{
+    if ((email, password)) {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then(() =>
+          Alert.alert(
+            'Logged in successfully',
+            '',
+            [{text: 'OK', onPress: () => console.log('OK Pressed')}],
+            {cancelable: false},
+          ),
+        )
+        .catch(error => setErrMsg(error.message));
+    } else {
       Alert.alert(
         'Please fill all the fields',
         '',
         [{text: 'OK', onPress: () => console.log('OK Pressed')}],
         {cancelable: false},
-      )
-      }
+      );
+    }
   };
 
   return (
@@ -62,14 +62,19 @@ export default function SignIn({navigation}) {
           onChangeText={email => setEmail(email)}
           value={email}
         />
+        <View style={styles.passwordSection}>
         <TextInput
-          secureTextEntry
+          secureTextEntry={!showPassword ? true : false}
           style={styles.textInput}
           autoCapitalize="none"
           placeholder="Password"
           onChangeText={password => setPassword(password)}
           value={password}
         />
+        <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+          <Icon name={showPassword ? "eye" : 'eye-with-line'} size={20} color="black" />
+        </TouchableOpacity>
+        </View>
         <View style={{flexDirection: 'row'}}>
           <View style={styles.checkboxContainer}>
             <CheckBox
@@ -109,6 +114,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffff',
     alignItems: 'center',
   },
+  passwordSection: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    margin:10,
+},
   textInput: {
     height: 40,
     width: '90%',
